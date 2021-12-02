@@ -6,19 +6,28 @@ from gtts import gTTS
 from pygame import mixer
 import tempfile
 
+def speak(sentence, lang):
+    #with tempfile.NamedTemporaryFile(delete=True) as fp:
+    tts=gTTS(text=sentence, lang=lang)
+    tts.save("/home/pi/Desktop/Project/OCRtext.mp3")
+    mixer.init()
+    mixer.music.load("/home/pi/Desktop/Project/OCRtext.mp3")
+    mixer.music.play(1)
+    
+def speak1():
+    #with tempfile.NamedTemporaryFile(delete=True) as fp:
+    
+    mixer.init()
+    mixer.music.load("/home/pi/Desktop/Project/in.mp3")
+    mixer.music.play(1)
+    
+def countWords(s): 
+    words = str.split(s) 
+    return len(words)
+
 def speak_all():
     
-    def speak(sentence, lang):
-        #with tempfile.NamedTemporaryFile(delete=True) as fp:
-            tts=gTTS(text=sentence, lang=lang)
-            tts.save("/home/pi/Desktop/Project/OCRtext.mp3")
-            mixer.init()
-            mixer.music.load("/home/pi/Desktop/Project/OCRtext.mp3")
-            mixer.music.play(1)
-            
-    def countWords(s): 
-        words = str.split(s) 
-        return len(words)
+   
       
     total_words = 0;   
        
@@ -40,6 +49,10 @@ def speak_all():
     f.close()
     mixer.music.load("/home/pi/Desktop/Project/OCRtext_copy.mp3")
     os.remove("/home/pi/Desktop/Project/OCRtext.mp3")
-    
-    
+
+def test():
+    mixer.init()
+    print("OH")
+    mixer.music.load("/home/pi/Desktop/Project/OCRtext_copy.mp3")
+    mixer.music.play(1)
 

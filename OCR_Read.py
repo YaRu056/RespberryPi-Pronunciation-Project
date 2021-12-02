@@ -49,8 +49,8 @@ def display():
     
 def OCR():
     print("OCR to txt")
-    img0 = Image.open('/home/pi/Desktop/Project/Picture/OCRImage.jpg')
-    mychars = image_to_string(img0,'chi_tra').strip()
+    img0 = Image.open('/home/pi/Desktop/Project/Picture/OCRImage1.jpg')
+    mychars = image_to_string(img0,'chi_tra1').strip()
     print(mychars)
     path = '/home/pi/Desktop/Project/OCR_Output.txt'
     f = open(path, 'w')
