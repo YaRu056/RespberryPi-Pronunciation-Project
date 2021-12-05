@@ -3,6 +3,7 @@ from PIL import Image
 from pytesseract import*
 import cv2
 import time
+import numpy as np
 #import OCRImage as Image
 #image.image_func()
 
@@ -49,7 +50,18 @@ def display():
     
 def OCR():
     print("OCR to txt")
-    img0 = Image.open('/home/pi/Desktop/Project/Picture/OCRImage1.jpg')
+    path='/home/pi/Desktop/Project/Picture/OCRImage1.jpg'
+    #img0 = Image.open('/home/pi/Desktop/Project/Picture/OCRImage1.jpg')
+    img = cv2.imread(path,1)#1.讀取彩色影像
+    gray = cv2.fastNlMeansDenoisingColored(img, None, 10, 3, 3, 3)#彩色影象中去除噪聲。
+    coefficients = [0, 1, 1]
+    m = np.array(coefficients).reshape((1, 3))
+    #旋轉圖片
+    trans = cv2.transform(gray, m)
+    #4.閾值 180  maxval:255
+    img0 = cv2.threshold(trans, 180, 255, cv2.THRESH_BINARY)[1]
+    
+    
     mychars = image_to_string(img0,'chi_tra1').strip()
     print(mychars)
     path = '/home/pi/Desktop/Project/OCR_Output.txt'
