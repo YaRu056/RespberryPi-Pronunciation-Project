@@ -7,6 +7,7 @@ import txtSpeak as sp
 import SpeechRecog as spr
 import Score as score
 from tkinter import *
+
 #import real_time_test_delete as rt
 
 import cv2
@@ -31,15 +32,15 @@ def BG(width,height,frame,path):
     Background = tk.Label(frame,image=BGImg,width=width)
     Background.image=BGImg
     return Background
-def btn(width,height,path):
+def btn_img(frame,width,height,path,color,com):
     
     img=Image.open(path)
     img=img.resize((width,height),Image.ANTIALIAS)
-    
-    BGImg=ImageTk.PhotoImage(img)
-    
+    photo = ImageTk.PhotoImage(img)
+    b=tk.Button(frame,text='',image=photo,bg=color,bd=0,command=com)
+    b.image=photo
    
-    return BGImg
+    return b
 
 def camera_open():
     print("Start")
@@ -90,17 +91,12 @@ class Mainpage():
         img_ins='/home/pi/Desktop/Project/Picture/use_Btn.png'
         img_exit='/home/pi/Desktop/Project/Picture/exit_Btn.png'
         
-        img_Scan=btn(10,5,img_scan)
-        img=Image.open(img_ins)
-        img_Use=ImageTk.PhotoImage(img)
-        img=Image.open(img_exit)
-        img_Exit=ImageTk.PhotoImage(img)
-        #按鈕標籤  j
         
-        btn_scan = tk.Button(self.Mainpage,text='掃描文本',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command=self.catch)
-        #btn_scan.config(image=img_Scan,height=2,width=6)
-        btn_instructions = tk.Button(self.Mainpage,text='說明',font=('微軟正黑體', '30'),bd=2,height=2,width=6,bg ='gray94',command=self.instructions)
-        btn_exit = tk.Button(self.Mainpage,text='離開',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command=self.Exit)
+        
+       
+        btn_scan = btn_img(self.Mainpage,240,120,img_scan,'#FBE5D6',self.catch)
+        btn_instructions = btn_img(self.Mainpage,240,120,img_ins,'#FBE5D6',self.instructions)
+        btn_exit = btn_img(self.Mainpage,240,120,img_exit,'#FBE5D6',self.Exit)
         btn_t = tk.Label(self.Mainpage,text='',font=('標楷體', '40'),bg='#FBE5D6')
         btn_e = tk.Label(self.Mainpage,text='',font=('標楷體', '40'),bg='#FBE5D6')
         #位置.

@@ -1,11 +1,19 @@
 import numpy as np
 import pypinyin
 from pypinyin import INITIALS, Style,pinyin,lazy_pinyin
-import Conversion as cv
+
 import requests
 
 global score
 score=0
+tones=[
+
+  ["","L"],
+  ["1","M"],
+  ["2","N"],
+  ["3","O"],
+  ["4","P"]
+]
 #網路爬機率表格
 url = 'https://yaru056.github.io/Pronunciation_Project/InitialTable.json'
 url1 = 'https://yaru056.github.io/Pronunciation_Project/FinalTable.json'
@@ -56,8 +64,8 @@ def Tone(x,y):
 def CheckTone(x): #把聲調換掉
     x=x[-1]
     for c in range(5):
-        if(x==cv.tones[c][0]):
-            return(cv.tones[c][1])
+        if(x==tones[c][0]):
+            return(tones[c][1])
 def Ini(A): #找出聲母是誰
   if(A[1:2]=='h'):
     return(A[0:2])
