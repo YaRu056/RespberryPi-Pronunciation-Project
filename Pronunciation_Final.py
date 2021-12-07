@@ -7,9 +7,6 @@ import txtSpeak as sp
 import SpeechRecog as spr
 import Score as score
 from tkinter import *
-
-#import real_time_test_delete as rt
-
 import cv2
 from PIL import  ImageTk,Image, ImageDraw
 
@@ -18,8 +15,7 @@ from PIL import  ImageTk,Image, ImageDraw
 file1 = '/home/pi/Desktop/Project/OCR_Output.txt'
 file2 = '/home/pi/Desktop/Project/STT.txt'
 
-#global cap
-#cap=False
+
 
 def BG(width,height,frame,path):
     BGwidth=1920
@@ -32,12 +28,13 @@ def BG(width,height,frame,path):
     Background = tk.Label(frame,image=BGImg,width=width)
     Background.image=BGImg
     return Background
-def btn_img(frame,width,height,path,color,com):
+
+def btn_img(frame,width,height,path,com):
     
     img=Image.open(path)
     img=img.resize((width,height),Image.ANTIALIAS)
     photo = ImageTk.PhotoImage(img)
-    b=tk.Button(frame,text='',image=photo,bg=color,bd=0,command=com)
+    b=tk.Button(frame,text='',image=photo,bd=0,command=com)
     b.image=photo
    
     return b
@@ -49,7 +46,7 @@ def camera_open():
     captrue.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')) #設置影像參數
     captrue.set(3,600) #像素
     captrue.set(4,800) #像素
-#camera_open()
+
 img_viode = '/home/pi/Desktop/Project/Picture/OCRImage1.jpg'    #影像存放位置要改****='/home/pi/Desktop/Project/Picture/OCRImage.jpg'
 
 def openA():
@@ -87,16 +84,14 @@ class Mainpage():
         MainBG=BG(1920,1080,self.Mainpage, img_BG)
         MainBG.place(x=0,y=0)
         #print(type(MainBG))
-        img_scan='/home/pi/Desktop/Project/Picture/scan_Btn.png'
-        img_ins='/home/pi/Desktop/Project/Picture/use_Btn.png'
-        img_exit='/home/pi/Desktop/Project/Picture/exit_Btn.png'
-        
-        
-        
-       
-        btn_scan = btn_img(self.Mainpage,240,120,img_scan,'#FBE5D6',self.catch)
-        btn_instructions = btn_img(self.Mainpage,240,120,img_ins,'#FBE5D6',self.instructions)
-        btn_exit = btn_img(self.Mainpage,240,120,img_exit,'#FBE5D6',self.Exit)
+        img_scan='/home/pi/Desktop/Project/Picture/Mscan_Btn.png'
+        img_ins='/home/pi/Desktop/Project/Picture/Muse_Btn.png'
+        img_exit='/home/pi/Desktop/Project/Picture/Mexit_Btn.png'
+                
+        btn_scan = btn_img(self.Mainpage,300,150,img_scan,self.catch)
+        btn_instructions = btn_img(self.Mainpage,300,150,img_ins,self.instructions)
+        btn_exit = btn_img(self.Mainpage,300,150,img_exit,self.Exit)
+
         btn_t = tk.Label(self.Mainpage,text='',font=('標楷體', '40'),bg='#FBE5D6')
         btn_e = tk.Label(self.Mainpage,text='',font=('標楷體', '40'),bg='#FBE5D6')
         #位置.
@@ -130,16 +125,18 @@ class instructions_page():
         sp.speak1()
         #print('test')
         #按鈕標籤
-        
-        btn_sure = tk.Button(self.instructions_page,text='確定',font=('微軟正黑體', '30'),bd=4,height=2,width=8,bg ='gray94',command=self.Back_mainpage)
-        btn_listen = tk.Button(self.instructions_page,text='再聽一次',font=('微軟正黑體', '30'),bd=4,height=2,width=8,bg ='gray94',command=self.Listen)
+        img_sure='/home/pi/Desktop/Project/Picture/Usure_Btn.png'
+        img_lis='/home/pi/Desktop/Project/Picture/Ulis_Btn.png'
+
+        btn_sure = btn_img(self.instructions_page,300,150,img_sure,self.Back_mainpage)
+        btn_listen =btn_img(self.instructions_page,300,150,img_lis,self.Listen)
         btn_t = tk.Label(self.instructions_page,text='',font=('標楷體', '40'),bg='black')
         btn_e = tk.Label(self.instructions_page,text='',font=('標楷體', '40'),bg='black')
         #位置
         btn_t.grid(row=0,column=0, padx=200, pady=200, sticky="nw")
         btn_e.grid(row=1,column=0, padx=200, pady=120, sticky="nw")
-        btn_sure.grid(row=2, padx=600, pady=100, sticky="nw")
-        btn_listen.grid(row=2, padx=1000, pady=100, sticky="nw")
+        btn_sure.grid(row=2, padx=600, pady=80, sticky="nw")
+        btn_listen.grid(row=2, padx=1000, pady=80, sticky="nw")
        
 
     def Back_mainpage(self,):       
@@ -163,13 +160,16 @@ class CatchPage():
         CatchBG.place(x=0,y=0)
         global label_right,button_3,lb
         label_right= tk.Label(self.CatchPage,height=500,width=670,bg='black',fg='blue')
-        
-        #按鈕
-        button_1 = tk.Button(self.CatchPage,text = '拍照',font=('微軟正黑體', '30'),bd=4,height=2,width=10,bg ='gray94',command=self.catch)
-        button_2 = tk.Button(self.CatchPage,text = '重新拍照',font=('微軟正黑體', '30'),bd=4,height=2,width=10,bg ='gray94',command =self.restart)
-        button_3 = tk.Button(self.CatchPage,text = '確定',font=('微軟正黑體', '30'),bd=4,height=2,width=10,bg ='gray94',command =self.sure)
+        img_pic='/home/pi/Desktop/Project/Picture/Cpic_Btn.png'
+        img_redo='/home/pi/Desktop/Project/Picture/Credo_Btn.png'
+        img_sure='/home/pi/Desktop/Project/Picture/Csure_Btn.png'
+        img_exit='/home/pi/Desktop/Project/Picture/Cexit_Btn.png'
+
+        button_1 =btn_img(self.CatchPage,300,150,img_pic,self.catch)
+        button_2 =btn_img(self.CatchPage,300,150,img_redo,self.restart)
+        button_3 =btn_img(self.CatchPage,300,150,img_sure,self.sure)
         button_3['state']=tk.DISABLED
-        button_4 = tk.Button(self.CatchPage,text = '離開',font=('微軟正黑體', '30'),bd=4,height=2,width=10,bg ='gray94',command =self.leave)
+        button_4 =btn_img(self.CatchPage,300,150,img_exit,self.leave)
         btn_t = tk.Label(self.CatchPage,text='',bg='#DAE3F3')
         lb = tk.Label(self.CatchPage ,font=('標楷體', '40'))
         lb.grid(row=2,padx=0, pady=100 ,sticky="nw")
@@ -252,11 +252,15 @@ class ListenPage():
         MainBG=BG(1920,1080,self.ListenPage, img_BG)
         MainBG.place(x=0,y=0)
         #按鈕標籤
-        
-        btn_listen_again = tk.Button(self.ListenPage,text = '再聽一次',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command=self.listen_again)
-        btn_basic = tk.Button(self.ListenPage,text = '去複讀',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command =self.Basic)
-        btn_back = tk.Button(self.ListenPage,text = '重新拍照',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command =self.back)
-        btn_exit = tk.Button(self.ListenPage,text = '離開',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command=self.leave)
+        img_lis='/home/pi/Desktop/Project/Picture/Llis_Btn.png'
+        img_goR='/home/pi/Desktop/Project/Picture/Lgo_Btn.png'
+        img_redo='/home/pi/Desktop/Project/Picture/Lredo_Btn.png'
+        img_exit='/home/pi/Desktop/Project/Picture/Lexit_Btn.png'
+
+        btn_listen_again=btn_img(self.ListenPage,300,150,img_lis,self.listen_again)
+        btn_basic=btn_img(self.ListenPage,300,150,img_goR,self.Basic)
+        btn_back =btn_img(self.ListenPage,300,150,img_redo,self.back)
+        btn_exit =btn_img(self.ListenPage,300,150,img_exit,self.leave)  
         btn_t = tk.Label(self.ListenPage,text='',font=('標楷體', '40'),bg='#DFEBE9')
        
         #位置.
@@ -295,12 +299,18 @@ class SpeakPage():
         MainBG=BG(1920,1080,self.SpeakPage, img_BG)
         MainBG.place(x=0,y=0)
         #按鈕標籤
-        
-        btn_listen_again = tk.Button(self.SpeakPage,text = '再聽一次',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command=self.listen_again)
-        btn_speak_again = tk.Button(self.SpeakPage,text = '複讀',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command =self.speak_again)
-        btn_score = tk.Button(self.SpeakPage,text = '進行評分',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command =self.score)
-        btn_exit = tk.Button(self.SpeakPage,text = '離開',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command=self.leave)
-        btn_back = tk.Button(self.SpeakPage,text = '重新拍照',font=('微軟正黑體', '30'),bd=4,height=2,width=6,bg ='gray94',command =self.back)
+        img_lis='/home/pi/Desktop/Project/Picture/Slis_Btn.png'
+        img_repeat='/home/pi/Desktop/Project/Picture/Srepeat_Btn.png'
+        img_score='/home/pi/Desktop/Project/Picture/Sscore_Btn.png'
+        img_redo='/home/pi/Desktop/Project/Picture/Sredo_Btn.png'
+        img_exit='/home/pi/Desktop/Project/Picture/Sexit_Btn.png'
+
+        btn_listen_again =btn_img(self.SpeakPage,300,150,img_lis,self.listen_again)
+        btn_speak_again=btn_img(self.SpeakPage,300,150,img_repeat,self.speak_again)
+        btn_score=btn_img(self.SpeakPage,300,150,img_score,self.score)
+        btn_exit=btn_img(self.SpeakPage,300,150,img_exit,self.leave)
+        btn_back=btn_img(self.SpeakPage,300,150,img_redo,self.back)
+
         btn_t = tk.Label(self.SpeakPage,text='',font=('標楷體', '30'),bg='#BED5DB')
        
         #位置.
@@ -314,12 +324,30 @@ class SpeakPage():
         btn_score.grid(row=1, padx=900, pady=100, sticky="nw")
         btn_back.grid(row=1, padx=1250, pady=100, sticky="nw")
         btn_exit.grid(row=1, padx=1600, pady=100, sticky="nw")
-        
+        '''
+        global lb0
+        self.text=tk.StringVar()
+        self.text.set(" ")
+
+        lb0 = tk.Label(self.SpeakPage,textvariable=self.text ,font=('microsoft yahei', '30'),bg='white')
+        lb0.grid(row=0, padx=1400, pady=300, sticky="nw")
+
+
+    def display():
+        global lb0
+        STT=open(file2,'r',encoding="utf-8")
+        text2=STT.read()
+        self.text=tk.StringVar()
+        self.text.set(text2)
+        lb0.textvariable=self.text
+'''
+
     def listen_again(self):
         sp.speak_all()
         
     def speak_again(self):
         spr.speech_recognition()
+        #display()
         
     def score(self):
         print('進行評分')
@@ -356,14 +384,11 @@ class Score():
         self.text.set(s)
         #按鈕標籤
         lb = tk.Label(self.Score,textvariable=self.text ,font=('microsoft yahei', '60','bold'),bg='#F1E5DC')
-        btn_sure = tk.Button(self.Score,text = '確定',font=('標楷體', '30'),bd=4,height=2,width=6,bg ='gray94',command =self.Back_ListenPage)
-        #btn_t = tk.Label(self.Score,text='',font=('標楷體', '40'),bg='#DFEBE9')
+        img_sure='/home/pi/Desktop/Project/Picture/Rsure_Btn.png'
+        btn_sure = btn_img(self.Score,300,150,img_sure,self.Back_ListenPage)
        
         #位置.
         lb.grid(row=0, padx=1400, pady=300, sticky="nw")
-        #btn_t.grid(row=1, padx=200, pady=350, sticky="nw")
-        #位置
-         
         btn_sure.grid(row=1, padx=1500, pady=150, sticky="nw")
         
     def Back_ListenPage(self,):#待設定回哪一個頁面       
@@ -374,14 +399,3 @@ if __name__ == '__main__':
     root = tk.Tk()
     basedesk(root)
     root.mainloop()
-    
-
-
-
-
-
-
-
-
-
-
