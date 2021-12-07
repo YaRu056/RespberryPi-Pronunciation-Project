@@ -18,7 +18,7 @@ def speak1():
     #with tempfile.NamedTemporaryFile(delete=True) as fp:
     
     mixer.init()
-    mixer.music.load("/home/pi/Desktop/Project/in.mp3")
+    mixer.music.load("/home/pi/Desktop/Project/use.mp3")
     mixer.music.play(1)
     
 def countWords(s): 

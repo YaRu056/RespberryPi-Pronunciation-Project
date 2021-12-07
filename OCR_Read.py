@@ -62,8 +62,15 @@ def OCR():
     img0 = cv2.threshold(trans, 180, 255, cv2.THRESH_BINARY)[1]
     
     
-    mychars = image_to_string(img0,'chi_tra1').strip()
+    mychars = image_to_string(img0,'chi_tra').strip()
     print(mychars)
     path = '/home/pi/Desktop/Project/OCR_Output.txt'
     f = open(path, 'w')
-    f.write(mychars)
+    if(mychars!=""):
+        f.write('a')
+        f.write(mychars)
+        f.close()
+    else:
+        f.write(mychars)
+        f.close()
+ 

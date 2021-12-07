@@ -5,11 +5,11 @@ import tkinter as tk
 import OCR_Read as ocr
 import txtSpeak as sp
 import SpeechRecog as spr
-import Score as score
+import Score as sc
 from tkinter import *
 import cv2
 from PIL import  ImageTk,Image, ImageDraw
-
+from pygame import mixer
 
       
 file1 = '/home/pi/Desktop/Project/OCR_Output.txt'
@@ -18,8 +18,8 @@ file2 = '/home/pi/Desktop/Project/STT.txt'
 
 
 def BG(width,height,frame,path):
-    BGwidth=1920
-    BGheight=1080
+    BGwidth=800
+    BGheight=600
     img=Image.open(path)
     img=img.resize((width,height),Image.ANTIALIAS)
     
@@ -158,7 +158,7 @@ class CatchPage():
         
         CatchBG=BG(1920,1080,self.CatchPage, img_BG)
         CatchBG.place(x=0,y=0)
-        global label_right,button_3,lb
+        global label_right,button_3
         label_right= tk.Label(self.CatchPage,height=500,width=670,bg='black',fg='blue')
         img_pic='/home/pi/Desktop/Project/Picture/Cpic_Btn.png'
         img_redo='/home/pi/Desktop/Project/Picture/Credo_Btn.png'
@@ -171,8 +171,8 @@ class CatchPage():
         button_3['state']=tk.DISABLED
         button_4 =btn_img(self.CatchPage,300,150,img_exit,self.leave)
         btn_t = tk.Label(self.CatchPage,text='',bg='#DAE3F3')
-        lb = tk.Label(self.CatchPage ,font=('標楷體', '40'))
-        lb.grid(row=2,padx=0, pady=100 ,sticky="nw")
+       
+        
         #位置
         btn_t.grid(row=3,column=0, padx=180, pady=100, sticky="nw")
         #btn_e.grid(row=1,column=0, padx=200, pady=100, sticky="nw")
@@ -186,22 +186,13 @@ class CatchPage():
         openA()
         
     def catch(self,):
-        global img_right,captrue,button_3,lb
+        global img_right,captrue,button_3
         captrue.release() #關閉相機
         label_right.after_cancel(s) #結束拍照
         #label_right.config(image=img) #換圖片
         label_right.imgtk=img_right
         button_3['state']=tk.NORMAL
-        f=open(file1,"r")
-        a=f.read()
-        self.text=tk.StringVar()
-        self.text.set("Test")
-        self.text.set(a)
-        lb.textvariable=self.text
-        print(self.text)
-        
-        f.close()
-        
+      
     def restart(self,):
         global button_3
         button_3['state']=tk.DISABLED
@@ -221,17 +212,24 @@ class CatchPage():
         else:
             ocr.OCR()
             
-            self.CatchPage.destroy()
+            
             #念出圖像中的文字
             OCR=open(file1,'r',encoding="utf-8")
             text1=OCR.read()
+
             if(text1==""):
-                print("No text!")    
+                print("No text!")
+                mixer.init()
+                mixer.music.load("/home/pi/Desktop/Project/NOtxt.mp3")
+                mixer.music.play(1)
+                time.sleep(0.5)
             else:
-                sp.speak_all()
-            ListenPage(self.master)
-            
+                OCR.close()
+                self.CatchPage.destroy()
+                ListenPage(self.master)
             OCR.close()
+            
+            
         
     def leave(self):
         global img_right,captrue
@@ -272,6 +270,7 @@ class ListenPage():
         btn_basic.grid(row=1, padx=700, pady=100, sticky="nw")
         btn_back.grid(row=1, padx=1050, pady=100, sticky="nw")
         btn_exit.grid(row=1,  padx=1400, pady=100, sticky="nw")
+        sp.speak_all()
         
     def listen_again(self):
         sp.speak_all()
@@ -324,30 +323,32 @@ class SpeakPage():
         btn_score.grid(row=1, padx=900, pady=100, sticky="nw")
         btn_back.grid(row=1, padx=1250, pady=100, sticky="nw")
         btn_exit.grid(row=1, padx=1600, pady=100, sticky="nw")
-        '''
+        
+        
+
+
+    def display(self):
+        
+        STT=open(file2,'r',encoding="utf-8")
+        text2=STT.read()
+        print(text2)
+        
         global lb0
         self.text=tk.StringVar()
         self.text.set(" ")
-
+        self.text.set(text2)
         lb0 = tk.Label(self.SpeakPage,textvariable=self.text ,font=('microsoft yahei', '30'),bg='white')
         lb0.grid(row=0, padx=1400, pady=300, sticky="nw")
+        STT.close()
+        
 
-
-    def display():
-        global lb0
-        STT=open(file2,'r',encoding="utf-8")
-        text2=STT.read()
-        self.text=tk.StringVar()
-        self.text.set(text2)
-        lb0.textvariable=self.text
-'''
 
     def listen_again(self):
         sp.speak_all()
         
     def speak_again(self):
         spr.speech_recognition()
-        #display()
+        self.display()
         
     def score(self):
         print('進行評分')
@@ -377,7 +378,7 @@ class Score():
         text1=OCR.read()
         STT=open(file2,'r',encoding="utf-8")
         text2=STT.read()
-        s=score.Display_Score(text1,text2)+"%"
+        s=sc.Display_Score(text1,text2)+"%"
         STT.close()
         OCR.close()
         self.text=tk.StringVar()

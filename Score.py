@@ -214,7 +214,8 @@ def Display_Score(text1,text2):
   stt=lazy_pinyin(text2, style=Style.NORMAL, strict=False,errors='ignore')
   print(stt)
 
-  global STT_Order
+  global STT_Order,score
+  score=0
   STT_Order=np.full((len(stt)),-1)
 
   result = []
@@ -411,7 +412,7 @@ def Display_Score(text1,text2):
         #print(proscore[1])
         #none.remove(i)
         none_in.append(i)
-        global score
+        #global score
         score+=0.6
         score+=0.3*proscore[0]
         Tone(STT_tone[i],OCR_tone[j])

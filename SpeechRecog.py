@@ -22,12 +22,13 @@ def speech_recognition():
         #使用麥克風為信號源
         r = sr.Recognizer()
         mic=sr.Microphone()
+        mixer.init()
+        mixer.music.load("/home/pi/Desktop/Project/start.mp3")
+        mixer.music.play(1)
+        time.sleep(0.5)
+        
         with mic as source:
             r.adjust_for_ambient_noise(source)
-            mixer.init()
-            mixer.music.load("/home/pi/Desktop/Project/start.mp3")
-            mixer.music.play(1)
-            time.sleep(0.5)
             print("Say something!")
             #使用麥克風獲取參數，檢測到靜止後會停止
             audio = r.listen(source)
@@ -67,3 +68,4 @@ def speech_recognition():
       except sr.RequestError as e:
            print("Could not request results from Google Speech Recognition service; {0}".format(e))
            time.sleep(0.5)
+
