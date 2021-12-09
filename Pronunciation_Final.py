@@ -10,7 +10,7 @@ from tkinter import *
 import cv2
 from PIL import  ImageTk,Image, ImageDraw
 from pygame import mixer
-
+import time
       
 file1 = '/home/pi/Desktop/Project/OCR_Output.txt'
 file2 = '/home/pi/Desktop/Project/STT.txt'
@@ -311,9 +311,14 @@ class SpeakPage():
         btn_back=btn_img(self.SpeakPage,300,150,img_redo,self.back)
 
         btn_t = tk.Label(self.SpeakPage,text='',font=('標楷體', '30'),bg='#BED5DB')
-       
-        #位置.
+        self.text=tk.StringVar()
         
+        b=" "
+        self.text.set(b)
+        lb0 = tk.Label(self.SpeakPage,textvariable=self.text ,font=('microsoft yahei', '30'),bg='white')
+        lb0.grid(row=0, padx=1400, pady=300, sticky="nw")
+        #位置.
+       
         btn_t.grid(row=0,column=0, padx=200, pady=350, sticky="nw")
         
         #位置
@@ -328,17 +333,12 @@ class SpeakPage():
 
 
     def display(self):
-        
+      
         STT=open(file2,'r',encoding="utf-8")
         text2=STT.read()
         print(text2)
-        
-        global lb0
-        self.text=tk.StringVar()
-        self.text.set(" ")
         self.text.set(text2)
-        lb0 = tk.Label(self.SpeakPage,textvariable=self.text ,font=('microsoft yahei', '30'),bg='white')
-        lb0.grid(row=0, padx=1400, pady=300, sticky="nw")
+       
         STT.close()
         
 
