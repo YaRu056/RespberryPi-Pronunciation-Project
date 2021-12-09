@@ -25,7 +25,7 @@ def speech_recognition():
         mixer.init()
         mixer.music.load("/home/pi/Desktop/Project/start.mp3")
         mixer.music.play(1)
-        time.sleep(1)
+        time.sleep(1.5)
         
         with mic as source:
             print("Say something!")
