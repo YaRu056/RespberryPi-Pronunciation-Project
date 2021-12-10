@@ -316,10 +316,10 @@ class SpeakPage():
         b=" "
         self.text.set(b)
         lb0 = tk.Label(self.SpeakPage,textvariable=self.text ,font=('microsoft yahei', '30'),bg='white')
-        lb0.grid(row=0, padx=1400, pady=300, sticky="nw")
+        lb0.grid(row=0, padx=200, pady=200, sticky="nw")
         #位置.
        
-        btn_t.grid(row=0,column=0, padx=200, pady=350, sticky="nw")
+        btn_t.grid(row=0,column=0, padx=0, pady=350, sticky="nw")
         
         #位置
        
