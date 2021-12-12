@@ -299,21 +299,21 @@ def Display_Score(text1,text2):
       else:
         print("多對多")
         #檢查是否有相同的index差
-        same=[] 
+        same=[]  #紀錄index的差之最小值有相同的index差
         del_index=[]
         min_index=[-1]*len(stt) #紀錄在stt相同位置下最小的index差
         min_key=[-1]*len(stt) #紀錄在stt相同位置下最小的index差 下配對的key(OCR的index)
         No_same=False 
         while (len(result[i].ocr)!=0 and len(result[i].stt)!=0 ):
           
-          check_sameIndex_=False
+          
           del_index=[]
           min_index=[-1]*len(stt) #紀錄在stt相同位置下最小的index差
           min_key=[-1]*len(stt) #紀錄在stt相同位置下最小的index差 下配對的key(OCR的index)
           for val in list(result[i].ocr.values()):
             check_same=check_duplicates(val)
             val_min=min(val)
-            #print(val_min) 
+            
             
             if(val_min not in check_same): #若min(index差)不再重複值裡面
               No_same=True
@@ -323,21 +323,25 @@ def Display_Score(text1,text2):
               index=result[i].stt[val.index(val_min)]
               key=list(result[i].ocr.keys())[list(result[i].ocr.values()).index(val)]
               
-              #print(index,key)
+              
               if(min_index[index]==-1):
                 min_index[index]=val_min
                 min_key[index]=key
               elif(min_index[index]>val_min):
                 min_index[index]=val_min
                 min_key[index]=key
+                print("min Key")
+                print(min_key)
 
             else:
               print("index的差之最小值有相同的index差")
-              key=get_key(result[i].ocr,val)
-              same.append(key[0])
-              check_sameIndex_=True
-              del result[i].ocr[key[0]]
-          #print(min_key)
+              index=result[i].stt[val.index(val_min)]
+              key=list(result[i].ocr.keys())[list(result[i].ocr.values()).index(val)]
+              print(index,key)
+              many_to_many(index,key)
+              Tone(STT_tone[index],OCR_tone[key])
+              del result[i].ocr[key]
+          print(result[i].ocr)
           if No_same:
             for k in min_key:
               if(k!=-1):
@@ -348,15 +352,15 @@ def Display_Score(text1,text2):
                 Tone(STT_tone[index],OCR_tone[key])
                 del_index.append(result[i].stt.index(index))
                 del result[i].ocr[key] #把已配對好的ocr的index刪掉
-                #print(result[i].stt)
-                #print(result[i].ocr)
+                
               else:
                 continue
-          print("Next!")
+         
+          
           del_index.sort(reverse=True)
           #print(del_index)
           for j in del_index:
-            print ("result:"+str(i)+" del_index:"+str(j))
+            #print ("result:"+str(i)+" del_index:"+str(j))
             del result[i].stt[j]
             for m in list(result[i].ocr.keys()):
               print(m)
@@ -365,16 +369,7 @@ def Display_Score(text1,text2):
           print (result[i].ocr)
           del_index=[] 
           
-          #print(result[i].stt,result[i].ocr)    
-            
-          #print(result[i].stt)
-          #若有相同的index差的處理:當不同Index差算完後把已經配對的刪掉後，再重新計算Index差
-          if check_sameIndex_: 
-            for key in same:
-              for j in result[i].stt:
-                index=abs(key-j)
-                result[i].push_ocr(key, index)
-        
+
             
     #print(STT_Order,none)
 
@@ -392,7 +387,7 @@ def Display_Score(text1,text2):
     for i in none:
       
       proscore=[0,0]
-      #print(i)
+      
       for j in a:
         #print(j)
         #print("STT:"+Ini(stt[i]))
@@ -412,7 +407,7 @@ def Display_Score(text1,text2):
         #print(proscore[1])
         #none.remove(i)
         none_in.append(i)
-        #global score
+        
         score+=0.6
         score+=0.3*proscore[0]
         Tone(STT_tone[i],OCR_tone[j])
@@ -455,6 +450,6 @@ def Display_Score(text1,text2):
   else:
     print(STT_Order,sorted(STT_Order))
     score*=0.95
-  return str((round((score/len(ocr)*100),2)))
+  return (str(round(score/len(ocr),3)*100))
 
 
